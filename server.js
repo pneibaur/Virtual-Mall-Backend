@@ -46,6 +46,18 @@ app.get("/", (req, res) => {
   res.send("Hello Virtual Mall!");
 });
 
+const artController = require('./controllers/art.js');
+app.use('/art', artController);
+
+const movieController = require('./controllers/movie.js');
+app.use('/movie', movieController);
+
+const bookController = require('./controllers/book.js');
+app.use('/book', bookController);
+
+const sportController = require('./controllers/sport.js');
+app.use('/sport', sportController);
+
 // -----------------------------------
 // LISTENER
 // ----------------------------------
