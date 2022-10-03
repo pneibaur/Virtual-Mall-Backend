@@ -46,19 +46,6 @@ app.get("/", (req, res) => {
   res.send("Mall Landing Page");
 });
 
-<<<<<<< HEAD
-// GET /stores/:storeID/products/:productID Retrieve ALL products
-const productController = require('./controllers/product.js');
-app.use('store/:storeId/product', productController);
-
-
-// GET /cart
-const cartController = require("./controllers/cart.js")
-app.use("/cart", cartController)
-
-
-=======
->>>>>>> 8fe2c52bf686622921b6b57cc002c9ae76e8e844
 // Store route
 const storeController = require('./controllers/store.js');
 app.use('/store', storeController);
