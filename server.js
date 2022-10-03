@@ -43,7 +43,7 @@ app.use(express.json());
 ///////////////////
 //test route
 app.get("/", (req, res) => {
-  res.send("Hello Virtual Mall!");
+  res.send("Mall Landing Page");
 });
 
 // GET /stores/:storeID/products/:productID Retrieve ALL products
@@ -51,6 +51,14 @@ const productController = require('./controllers/product.js');
 app.use('store/:storeId/product', productController);
 
 
+
+app.get('/cart', async (req, res) => {
+  try {
+    res.jsoin(await cart.find({}));
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
 
 
 
