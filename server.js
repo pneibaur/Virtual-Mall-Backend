@@ -19,18 +19,6 @@ mongoose.connection
   .on("close", () => console.log("You are disconnected from mongoose"))
   .on("error", (error) => console.log(error));
 
-////////////////////////
-//MODELS
-///////////////////////
-
-//userSchema
-
-//cartSchema
-
-//productSchema
-
-//storeSchema
-
 ///////////////////
 //MIDDLEWARE
 //////////////////
@@ -57,9 +45,6 @@ app.use("/cart", cartController)
 // GET /stores/:storeID/products/:productID Retrieve ALL products
 const productController = require('./controllers/product.js');
 app.use('/store/:storeId/product', productController);
-
-
-
 
 
 
