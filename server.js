@@ -50,6 +50,10 @@ app.get("/", (req, res) => {
 const productController = require('./controllers/product.js');
 app.use('store/:storeId/product', productController);
 
+// Store route
+const storeController = require('./controllers/store.js');
+app.use('/store', storeController);
+
 
 
 app.get('/cart', async (req, res) => {
