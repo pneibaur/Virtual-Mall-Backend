@@ -43,7 +43,7 @@ app.use(express.json());
 ///////////////////
 //test route
 app.get("/", (req, res) => {
-  res.send("Hello Virtual Mall!");
+  res.send("Mall Landing Page");
 });
 
 const artController = require('./controllers/art.js');
@@ -56,7 +56,18 @@ const bookController = require('./controllers/book.js');
 app.use('/book', bookController);
 
 const sportController = require('./controllers/sport.js');
+const cart = require("./models/cart.js");
 app.use('/sport', sportController);
+
+app.get('/cart', async (req, res) => {
+  try {
+    res.jsoin(await cart.find({}));
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+
 
 // -----------------------------------
 // LISTENER
