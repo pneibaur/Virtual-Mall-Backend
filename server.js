@@ -46,17 +46,13 @@ app.get("/", (req, res) => {
   res.send("Hello Virtual Mall!");
 });
 
-const artController = require('./controllers/art.js');
-app.use('/art', artController);
+// GET /stores/:storeID/products/:productID Retrieve ALL products
+const productController = require('./controllers/product.js');
+app.use('store/:storeId/product', productController);
 
-const movieController = require('./controllers/movie.js');
-app.use('/movie', movieController);
 
-const bookController = require('./controllers/book.js');
-app.use('/book', bookController);
 
-const sportController = require('./controllers/sport.js');
-app.use('/sport', sportController);
+
 
 // -----------------------------------
 // LISTENER
