@@ -53,7 +53,7 @@ app.use('store/:storeId/product', productController);
 
 // GET /cart
 const cartController = require("./controllers/cart.js")
-app.use("cart/")
+app.use("/cart", cartController)
 
 
 // Store route
