@@ -2,47 +2,47 @@
 const express = require('express');
 const { findById } = require('../models/product.js');
 const router = express.Router()
-const Book = require('../models/product.js');
+const Product = require('../models/product.js');
 
-// Book Index Route
+// product Index Route
 router.get("/", async (req, res) => {
     try{
-        //send all books
-        res.json(await Book.find({}));
+        //send all products
+        res.json(await Product.find({}));
     } catch (error) {
         //send error
         res.status(400).json(error);
     }
 })
 
-// Book Create Route
+// product Create Route
 router.post("/", async (req, res) => {
     try{
-        //send all books
-        res.json(await Book.create(req.body));
+        //send all products
+        res.json(await Product.create(req.body));
     } catch (error) {
         // send error
         res.status(400).json(error);
     }
 })
 
-// Book Delete Route
+// product Delete Route
 router.delete("/:id", async (req,res)=> {
     try{
-        // send all books
-        res.json(await Book.findByIdAndRemove(req.params.id));
+        // send all products
+        res.json(await Product.findByIdAndRemove(req.params.id));
     } catch (error) {
         // send error
         res.status(400).json(error)
     }
 })
 
-// Book Update Route
+// product Update Route
 router.put("/:id", async (req, res) => {
     try {
-      // send all books
+      // send all products
       res.json(
-        await Book.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        await Product.findByIdAndUpdate(req.params.id, req.body, { new: true })
       );
     } catch (error) {
       // send error
