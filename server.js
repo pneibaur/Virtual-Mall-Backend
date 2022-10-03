@@ -46,6 +46,7 @@ app.get("/", (req, res) => {
   res.send("Mall Landing Page");
 });
 
+<<<<<<< HEAD
 // GET /stores/:storeID/products/:productID Retrieve ALL products
 const productController = require('./controllers/product.js');
 app.use('store/:storeId/product', productController);
@@ -56,19 +57,22 @@ const cartController = require("./controllers/cart.js")
 app.use("/cart", cartController)
 
 
+=======
+>>>>>>> 8fe2c52bf686622921b6b57cc002c9ae76e8e844
 // Store route
 const storeController = require('./controllers/store.js');
 app.use('/store', storeController);
 
+// GET /cart
+const cartController = require("./controllers/cart.js")
+app.use("/cart", cartController)
+
+// GET /stores/:storeID/products/:productID Retrieve ALL products
+const productController = require('./controllers/product.js');
+app.use('/store/:storeId/product', productController);
 
 
-app.get('/cart', async (req, res) => {
-  try {
-    res.jsoin(await cart.find({}));
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
+
 
 
 
