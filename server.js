@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 
 // Store route
 const storeController = require('./controllers/store.js');
-app.use('/home', storeController);
+app.use('/store', storeController);
 
 // GET /cart
 const cartController = require("./controllers/cart.js")
