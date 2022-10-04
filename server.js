@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 
 // Store route
 const storeController = require('./controllers/store.js');
-app.use('/home', storeController);
+app.use('/store', storeController);
 
 // GET /cart
 const cartController = require("./controllers/cart.js")
@@ -44,7 +44,7 @@ app.use("/cart", cartController)
 
 // GET /stores/:storeID/products/:productID Retrieve ALL products
 const productController = require('./controllers/product.js');
-app.use('/home/:storeId/product', productController);
+app.use('/store/:storeId/product', productController);
 
 
 
