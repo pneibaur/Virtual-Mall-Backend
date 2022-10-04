@@ -44,7 +44,7 @@ app.use("/cart", cartController)
 
 // GET /stores/:storeID/products/:productID Retrieve ALL products
 const productController = require('./controllers/product.js');
-app.use('/home/:storeId/product', productController);
+app.use('/store/:storeId/product', productController);
 
 
 
