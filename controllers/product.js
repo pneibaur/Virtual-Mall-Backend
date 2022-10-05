@@ -1,14 +1,14 @@
 // DEPENDENCIES
 const express = require('express');
-const { findById } = require('../models/product.js');
 const router = express.Router()
-const Product = require('../models/product.js');
+const Store = require('../models/store.js');
 
 // product Index Route
-router.get("/", async (req, res) => {
+router.get("/store/:id/product", async (req, res) => {
     try{
-        //send all products
-        res.json(await Product.find({}));
+        // this returns all products. I'm not sure why I had to use two lines of code, but it works.
+        let foundStore = await Store.findById(req.params.id)
+        res.json(foundStore.productList);
     } catch (error) {
         //send error
         res.status(400).json(error);
@@ -16,10 +16,16 @@ router.get("/", async (req, res) => {
 })
 
 // product Create Route
-router.post("/", async (req, res) => {
+router.post("/store/:id/product", async (req, res) => {
     try{
-        //send all products
-        res.json(await Product.create(req.body));
+        // this creates, and postman will return the store object with the prodcutsList, 
+        // but your new product will NOT be displayed for some reason. 
+        res.json(await Store.findByIdAndUpdate(
+            req.params.id, 
+            // thanks to Bryce in the engineering channel and this stackoverflow doc to find this!
+            // https://stackoverflow.com/questions/33049707/push-items-into-mongo-array-via-mongoose
+            {$push: {productList: req.body}}
+            ));
     } catch (error) {
         // send error
         res.status(400).json(error);
@@ -27,10 +33,14 @@ router.post("/", async (req, res) => {
 })
 
 // product Delete Route
-router.delete("/:id", async (req,res)=> {
+router.delete("/store/:storeId/product/:prodId", (req,res)=> {
     try{
-        // send all products
-        res.json(await Product.findByIdAndRemove(req.params.id));
+        // This deletes, but running on postman will NOT post what you just deleted for some reason...
+        // I removed async/await, so this route can work. 
+        Store.findById(req.params.storeId, (error, foundStore) =>{
+            res.json(foundStore.productList.id(req.params.prodId).remove());
+            foundStore.save()
+        })
     } catch (error) {
         // send error
         res.status(400).json(error)
@@ -38,12 +48,13 @@ router.delete("/:id", async (req,res)=> {
 })
 
 // product Update Route
-router.put("/:id", async (req, res) => {
+router.put("/store/:storeId/product/:prodId", (req, res) => {
     try {
-      // send all products
-      res.json(
-        await Product.findByIdAndUpdate(req.params.id, req.body, { new: true })
-      );
+      // THIS is still a WIP. not complete! 
+      Store.findById(req.params.storeId, (error, foundStore) =>{
+        res.json(foundStore.productList.id(req.params.prodId).overwrite(req.body));
+        foundStore.save()
+    })
     } catch (error) {
       // send error
       res.status(400).json(error);

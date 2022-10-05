@@ -38,13 +38,13 @@ app.get("/", (req, res) => {
 const storeController = require('./controllers/store.js');
 app.use('/store', storeController);
 
-// GET /cart
+// cart route
 const cartController = require("./controllers/cart.js")
 app.use("/cart", cartController)
 
-// GET /stores/:storeID/products/:productID Retrieve ALL products
+// product routes
 const productController = require('./controllers/product.js');
-app.use('/store/:storeId/product', productController);
+app.use('/', productController);
 
 
 
