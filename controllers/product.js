@@ -22,7 +22,9 @@ router.post("/store/:id/product", async (req, res) => {
         // but your new product will NOT be displayed for some reason. 
         res.json(await Store.findByIdAndUpdate(
             req.params.id, 
-            {$addToSet: {productList: req.body}}
+            // thanks to Bryce in the engineering channel and this stackoverflow doc to find this!
+            // https://stackoverflow.com/questions/33049707/push-items-into-mongo-array-via-mongoose
+            {$push: {productList: req.body}}
             ));
     } catch (error) {
         // send error
@@ -34,8 +36,8 @@ router.post("/store/:id/product", async (req, res) => {
 router.delete("/store/:storeId/product/:prodId", (req,res)=> {
     try{
         // This deletes, but running on postman will NOT post what you just deleted for some reason...
+        // I removed async/await, so this route can work. 
         Store.findById(req.params.storeId, (error, foundStore) =>{
-            console.log(req.params.storeId)
             res.json(foundStore.productList.id(req.params.prodId).remove());
             foundStore.save()
         })
@@ -46,14 +48,13 @@ router.delete("/store/:storeId/product/:prodId", (req,res)=> {
 })
 
 // product Update Route
-router.put("/product/:id", async (req, res) => {
+router.put("/store/:storeId/product/:prodId", (req, res) => {
     try {
       // THIS is still a WIP. not complete! 
-      res.json(
-        await Store.productList.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        );
-        console.log("update this: ")
-        console.log(Store.productList.findByIdAndUpdate(req.params.id, req.body, {new: true}))
+      Store.findById(req.params.storeId, (error, foundStore) =>{
+        res.json(foundStore.productList.id(req.params.prodId).overwrite(req.body));
+        foundStore.save()
+    })
     } catch (error) {
       // send error
       res.status(400).json(error);
