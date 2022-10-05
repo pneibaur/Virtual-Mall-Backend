@@ -1,14 +1,14 @@
 // DEPENDENCIES
 const express = require('express');
-const { findById } = require('../models/product.js');
 const router = express.Router()
-const Product = require('../models/product.js');
+const Store = require('../models/store.js');
 
 // product Index Route
-router.get("/", async (req, res) => {
+router.get("/store/:id/product", async (req, res) => {
     try{
-        //send all products
-        res.json(await Product.find({}));
+        //send al l products
+        let foundStore = await Store.findById(req.params.id)
+        res.json(foundStore.productList);
     } catch (error) {
         //send error
         res.status(400).json(error);
@@ -16,10 +16,12 @@ router.get("/", async (req, res) => {
 })
 
 // product Create Route
-router.post("/", async (req, res) => {
+router.post("/store/:id/product", async (req, res) => {
     try{
-        //send all products
-        res.json(await Product.create(req.body));
+        res.json(await Store.findByIdAndUpdate(
+            req.params.id, 
+            {$addToSet: {productList: req.body}}
+            ));
     } catch (error) {
         // send error
         res.status(400).json(error);
@@ -27,10 +29,13 @@ router.post("/", async (req, res) => {
 })
 
 // product Delete Route
-router.delete("/:id", async (req,res)=> {
+router.delete("/store/:storeId/product/:prodId", (req,res)=> {
     try{
-        // send all products
-        res.json(await Product.findByIdAndRemove(req.params.id));
+        Store.findById(req.params.storeId, (error, foundStore) =>{
+            console.log(req.params.storeId)
+            res.json(foundStore.productList.id(req.params.prodId).remove());
+            foundStore.save()
+        })
     } catch (error) {
         // send error
         res.status(400).json(error)
@@ -38,12 +43,14 @@ router.delete("/:id", async (req,res)=> {
 })
 
 // product Update Route
-router.put("/:id", async (req, res) => {
+router.put("/product/:id", async (req, res) => {
     try {
       // send all products
       res.json(
-        await Product.findByIdAndUpdate(req.params.id, req.body, { new: true })
-      );
+        await Store.productList.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        );
+        console.log("update this: ")
+        console.log(Store.productList.findByIdAndUpdate(req.params.id, req.body, {new: true}))
     } catch (error) {
       // send error
       res.status(400).json(error);
