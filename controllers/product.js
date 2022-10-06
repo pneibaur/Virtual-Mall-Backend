@@ -30,21 +30,6 @@ router.post("/store/:id/product", (req, res) => {
 })
 
 // product Delete Route
-<<<<<<< Updated upstream
-router.delete("/store/:storeId/product/:prodId", (req,res)=> {
-    try{
-        // This deletes, but running on postman will NOT post what you just deleted for some reason...
-        // I removed async/await, so this route can work. 
-        Store.findById(req.params.storeId, (error, foundStore) =>{
-            res.json(foundStore.productList.id(req.params.prodId).remove());
-            foundStore.save()
-        })
-    } catch (error) {
-        // send error
-        res.status(400).json(error)
-    }
-})
-=======
 router.delete("/store/:storeId/product/:prodId", (req, res) => {
   try {
     Store.findById(req.params.storeId, async (error, foundStore) => {
@@ -58,7 +43,6 @@ router.delete("/store/:storeId/product/:prodId", (req, res) => {
     res.status(400).json(error);
   }
 });
->>>>>>> Stashed changes
 
 
 // product Update Route
