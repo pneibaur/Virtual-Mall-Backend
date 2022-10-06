@@ -20,7 +20,7 @@ router.post("/store/:id/product", (req, res) => {
         Store.findById(req.params.id, (error, foundStore)=>{
             foundStore.productList.push(req.body)
             foundStore.save(async (err)=> {
-                err ? console.log(err) : res.redirect(`/store/${foundStore._id}/product`)
+                err ? console.log(err) : res.json(foundStore.productList)
             })
         })
     } catch (error) {
@@ -30,6 +30,7 @@ router.post("/store/:id/product", (req, res) => {
 })
 
 // product Delete Route
+<<<<<<< Updated upstream
 router.delete("/store/:storeId/product/:prodId", (req,res)=> {
     try{
         // This deletes, but running on postman will NOT post what you just deleted for some reason...
@@ -43,6 +44,21 @@ router.delete("/store/:storeId/product/:prodId", (req,res)=> {
         res.status(400).json(error)
     }
 })
+=======
+router.delete("/store/:storeId/product/:prodId", (req, res) => {
+  try {
+    Store.findById(req.params.storeId, async (error, foundStore) => {
+      await foundStore.productList.id(req.params.prodId).remove()
+      foundStore.save(async (err) => {
+        err ? console.log(err) : res.json(foundStore.productList)
+      });
+    });
+  } catch (error) {
+    // send error
+    res.status(400).json(error);
+  }
+});
+>>>>>>> Stashed changes
 
 
 // product Update Route
