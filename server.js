@@ -2,7 +2,7 @@
 // DEPENDENCIES
 // -----------------------------------
 require("dotenv").config();
-const { PORT = 4000, MONGODB_URL } = process.env;
+const { PORT = 4000, DATABASE_URI } = process.env;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -13,8 +13,8 @@ const passport = require("passport");
 
 /////////////////////////////
 //DATABASE CONNECTION
-///////////////////////////
-mongoose.connect(MONGODB_URL);
+////////////////////////////
+mongoose.connect(DATABASE_URI);
 
 mongoose.connection
   .on("open", () => console.log("you are connected to mongoose"))
