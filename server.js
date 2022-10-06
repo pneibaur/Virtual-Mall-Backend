@@ -13,7 +13,7 @@ const passport = require("passport");
 
 /////////////////////////////
 //DATABASE CONNECTION
-///////////////////////////
+////////////////////////////
 mongoose.connect(DATABASE_URI);
 
 mongoose.connection
