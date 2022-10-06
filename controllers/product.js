@@ -14,18 +14,15 @@ router.get("/store/:id/product", async (req, res) => {
         res.status(400).json(error);
     }
 })
-
 // product Create Route
-router.post("/store/:id/product", async (req, res) => {
+router.post("/store/:id/product", (req, res) => {
     try{
-        // this creates, and postman will return the store object with the prodcutsList, 
-        // but your new product will NOT be displayed for some reason. 
-        res.json(await Store.findByIdAndUpdate(
-            req.params.id, 
-            // thanks to Bryce in the engineering channel and this stackoverflow doc to find this!
-            // https://stackoverflow.com/questions/33049707/push-items-into-mongo-array-via-mongoose
-            {$push: {productList: req.body}}
-            ));
+        Store.findById(req.params.id, (error, foundStore)=>{
+            foundStore.productList.push(req.body)
+            foundStore.save(async (err)=> {
+                err ? console.log(err) : res.redirect(`/store/${foundStore._id}/product`)
+            })
+        })
     } catch (error) {
         // send error
         res.status(400).json(error);
@@ -47,10 +44,10 @@ router.delete("/store/:storeId/product/:prodId", (req,res)=> {
     }
 })
 
+
 // product Update Route
 router.put("/store/:storeId/product/:prodId", (req, res) => {
     try {
-      // THIS is still a WIP. not complete! 
       Store.findById(req.params.storeId, (error, foundStore) =>{
         res.json(foundStore.productList.id(req.params.prodId).overwrite(req.body));
         foundStore.save()
