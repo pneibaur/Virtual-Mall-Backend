@@ -21,7 +21,7 @@ router.post("/store/:id/product", (req, res) => {
         Store.findById(req.params.id, (error, foundStore)=>{
             foundStore.productList.push(req.body)
             foundStore.save(async (err)=> {
-                err ? console.log(err) : res.redirect(`/store/${foundStore._id}/product`)
+                err ? console.log(err) : res.json(foundStore.productList)
             })
         })
     } catch (error) {
@@ -33,11 +33,11 @@ router.post("/store/:id/product", (req, res) => {
 // product Delete Route
 router.delete("/store/:storeId/product/:prodId", (req, res) => {
   try {
-    // This deletes, but running on postman will NOT post what you just deleted for some reason...
-    // I removed async/await, so this route can work.
-    Store.findById(req.params.storeId, (error, foundStore) => {
-      res.json(foundStore.productList.id(req.params.prodId).remove());
-      foundStore.save();
+    Store.findById(req.params.storeId, async (error, foundStore) => {
+      await foundStore.productList.id(req.params.prodId).remove()
+      foundStore.save(async (err) => {
+        err ? console.log(err) : res.json(foundStore.productList)
+      });
     });
   } catch (error) {
     // send error
