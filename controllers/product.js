@@ -1,7 +1,7 @@
 // DEPENDENCIES
-const express = require('express');
-const router = express.Router()
-const Store = require('../models/store.js');
+const express = require("express");
+const router = express.Router();
+const Store = require("../models/store.js");
 
 // product Index Route
 router.get("/store/:id/product", async (req, res) => {
@@ -14,6 +14,7 @@ router.get("/store/:id/product", async (req, res) => {
         res.status(400).json(error);
     }
 })
+
 // product Create Route
 router.post("/store/:id/product", (req, res) => {
     try{
@@ -58,8 +59,20 @@ router.put("/store/:storeId/product/:prodId", (req, res) => {
     }
   });
 
+  // produt SHow Route
+  router.get("/store/:storeId/product/:prodId", async (req,res) => {
+    try{
+        // this returns all products. I'm not sure why I had to use two lines of code, but it works.
+        Store.findById(req.params.storeId, (error, foundProd) => {
+           res.json(foundProd.productList.id(req.params.prodId)); 
+        })
+        
+    } catch (error) {
+        //send error
+        res.status(400).json(error);
+    }
+
+  })
 
 
-
-
-module.exports = router
+module.exports = router;
